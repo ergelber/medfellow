@@ -1,0 +1,38 @@
+{
+  "name": "medfellow",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "start:server": "nodemon server",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "jquery": "^3.2.1",
+    "katex": "^0.9.0-alpha1",
+    "lodash": "^4.17.4",
+    "morgan": "^1.9.0",
+    "pg": "^7.4.0",
+    "pg-hstore": "^2.3.2",
+    "react": "^16.0.0",
+    "react-addons-pure-render-mixin": "^15.6.2",
+    "react-bootstrap": "^0.31.5",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "react-remarkable": "^1.1.3",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17",
+    "redux": "^3.7.2",
+    "redux-actions": "^2.2.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
+    "sequelize": "^4.22.6",
+    "uuid": "^3.1.0",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "proxy": "http://localhost:3100"
+}

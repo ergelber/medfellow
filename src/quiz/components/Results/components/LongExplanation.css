@@ -1,0 +1,11 @@
+.modal-lg {
+  min-width: 80%;
+}
+
+.modal-container {
+  color: black;
+}
+
+.modal-body .container {
+  max-width: 100%;
+}

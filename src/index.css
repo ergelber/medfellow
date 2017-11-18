@@ -1,0 +1,16 @@
+body {
+  overflow-x: hidden;
+  background: #2e4562;
+  color: #fff;
+  letter-spacing: .05em;
+  line-height: 1.5em;
+  font-weight: 400;
+  font-size: 1.6em;
+}
+
+header {
+  background: #2e4562;
+  color: white;
+  min-height: 100vh;
+}
+

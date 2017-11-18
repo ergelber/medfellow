@@ -1,0 +1,19 @@
+.question-circle {
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: white;
+	margin: 15px;
+}
+
+.quiz-progress-circles{
+	display: flex;
+	justify-content: center;
+	margin-top: 2%;
+	margin-bottom: 3%;
+}
+
+.question-answered {
+  background-color: #5c8ebe;
+}

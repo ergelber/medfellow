@@ -1,0 +1,48 @@
+.answer-choices li {
+	cursor: pointer;
+	border-radius: 10px;
+	padding: 1px;
+	padding-left: 10px;
+	margin-left: 10px;
+	list-style-position: outside;
+}
+
+table {
+  font-size: 16px;
+}
+
+.answer-choices li:hover{
+	box-shadow: 0px 0px 0px 2px #5c8ebe;
+	cursor: pointer;
+	border-radius: 10px;
+	list-style-position: outside;
+	padding-left: 10px;
+}
+
+.question-stem {
+  padding-bottom: 10px;
+}
+
+.answer-choices li {
+  padding: 7px 0 7px 10px;
+  cursor: pointer;
+}
+
+.answer-choices li div span p{
+  margin: 0;
+}
+
+.answered {
+  background: #5c8ebe;
+  border-radius: 10px;
+}
+
+.correct {
+  border: 1px solid #7ab577;
+  border-radius: 10px;
+}
+
+.incorrect {
+  border: 1px solid #d3575f;
+  border-radius: 10px;
+}

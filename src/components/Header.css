@@ -1,0 +1,14 @@
+.header-logo {
+  width: 200px;
+  height: auto;
+}
+
+.navbar {
+  margin-bottom: 0;
+  background: #25374e;
+  border: none;
+}
+
+.navbar-brand {
+  padding: 7px;
+}
