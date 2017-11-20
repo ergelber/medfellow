@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
-import Books from '../../images/books_1.png'
-import Banner from '../../images/medfellow-banner.png'
+import Books from '../../images/books_1.png';
+import Banner from '../../images/medfellow-banner.png';
+
+import { login } from '../../../Login';
+import { getIsLoggedIn } from '../../../reducer';
 
 // import Login from './Login';
 
@@ -16,12 +19,18 @@ class Home extends Component {
     this.clickHandler = this.clickHandler.bind(this);
   }
 
+  componentWillMount() {
+    const { history, isLoggedIn } = this.props;
+    if(isLoggedIn) history.push('/');
+  }
+
   clickHandler() {
-    return this.props.history.push('/');
+    const { login, history } = this.props;
+    login();
+    history.push('/');
   } 
 
   render() {
-    console.log(this.props)
     return (
       <div className='home-container'>
         <div className="home-title-container">
@@ -37,6 +46,12 @@ class Home extends Component {
   }
 }
 
-const HomeContainer = withRouter(connect(null, null)(Home));
+const mapStateToProps = (state) => ({
+  isLoggedIn: getIsLoggedIn(state)
+})
+
+const HomeContainer = withRouter(connect(mapStateToProps, {
+  login
+})(Home));
 
 export default HomeContainer;

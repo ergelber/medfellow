@@ -1,6 +1,5 @@
 import React, { PureComponent as Component } from 'react';
 import { Button, Col } from 'react-bootstrap';
-import _ from 'lodash';
 import Markdown from 'react-remarkable';
 
 import { Question } from '../../Quiz';

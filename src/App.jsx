@@ -10,6 +10,7 @@ import wrapper from './helpers/wrapper';
 import { Home } from './components/Home';
 import PrivateRoute from './components/PrivateRoute';
 import { Dashboard, Quiz, Solutions } from './quiz';
+import { getIsLoggedIn } from './reducer';
 
 import './App.css';
 
@@ -34,8 +35,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  //isLoggedIn: getIsLoggedIn(state)
-  isLoggedIn: true
+  isLoggedIn: getIsLoggedIn(state)
 });
 
 export default connect(mapStateToProps)(App);
