@@ -24,3 +24,8 @@ set-prod-env.sh
 
 # visual studio
 .vscode
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
