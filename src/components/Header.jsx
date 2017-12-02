@@ -1,5 +1,5 @@
 import React, { PureComponent as Component } from 'react';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import Logo from './images/Medfellow_Logo.png';
@@ -7,6 +7,18 @@ import Logo from './images/Medfellow_Logo.png';
 import './Header.css';
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.logout = this.logout.bind(this);
+  }
+
+  logout() {
+    const { logout, history } = this.props;
+    logout();
+    history.push('/login');
+  }
+
   render() {
     return (
       <Navbar inverse collapseOnSelect>
@@ -16,11 +28,12 @@ class Header extends Component {
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
-        {/* <Navbar.Collapse>
-          <Nav pullRight>
-            <NavItem eventKey={2} href="#">Logout</NavItem>
-          </Nav>
-        </Navbar.Collapse> */}
+        { this.props.isLoggedIn ? 
+          <Navbar.Collapse>
+            <Nav pullRight>
+              <NavItem eventKey={2} onClick={this.logout}>Logout</NavItem>
+            </Nav>
+          </Navbar.Collapse> : null } 
       </Navbar>
     );
   }

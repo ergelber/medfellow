@@ -1,17 +1,18 @@
-import { login } from './actions';
-import LoginReducer, { getIsLoggedIn } from './reducer';
-import Login from './components/Login';
+import { login, logout, loggingIn, signingUp } from './actions';
+import LoginReducer from './reducer';
+import { getIsLoggedIn, getIsSigningUp, getIsLoggingIn } from './selectors';
+import LoginModal from './components/LoginModal';
 
 // Actions
-export { login };
+export { login, logout, loggingIn, signingUp };
 
 // Components
-export { Login };
+export { LoginModal };
 
 // reducer
 export { LoginReducer };
 
 // Selectors
-export { getIsLoggedIn };
+export { getIsLoggedIn, getIsSigningUp, getIsLoggingIn };
 
 

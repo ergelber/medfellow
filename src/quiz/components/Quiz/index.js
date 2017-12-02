@@ -1,17 +1,21 @@
 import Quiz from './components/Quiz';
+import Passage from './components/Passage';
 import Question from './components/Question';
-import { getIdx, getQuestions, getIsLoadingQuestions } from './selectors';
+import { getIdx, getQuestions,hasPassages, 
+  getPassages, getIsLoading, getQuizType 
+} from './selectors';
 import QuizReducer from './reducer';
-import { createQuiz } from './actions';
+import { createQuiz, quizType } from './actions';
 
 // Components
-export { Quiz, Question };
+export { Quiz, Question, Passage };
 
 // Selectors
-export { getIdx, getQuestions, getIsLoadingQuestions };
+export { getIdx, getQuestions, getIsLoading,
+  hasPassages, getPassages, getQuizType };
 
 // Reducer
 export { QuizReducer };
 
 // Actions
-export { createQuiz };
+export { createQuiz, quizType };

@@ -1,14 +1,17 @@
 import React, { PureComponent as Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Grid, Row, Button } from 'react-bootstrap';
+import { Grid, Row, Button, Col } from 'react-bootstrap';
 
 import { getQuestions, getLongExplanation,
-  hasLongExplanation as hasLongExplanationSelector
+  hasLongExplanation as hasLongExplanationSelector,
+  hasPassages as hasPassagesSelector,
+  getPassages
 } from '../../../selector.js';
 import Solution from './Solution';
 import LongExplanation from './LongExplanation';
 import { showLongExplanation, hideLongExplanation } from '../actions';
+import { Passage } from '../../Quiz';
 
 import './Solutions.css';
 
@@ -19,6 +22,7 @@ class Solutions extends Component {
 
     this.mapSolutions = this.mapSolutions.bind(this);
     this.getNumCorrect = this.getNumCorrect.bind(this);
+    this.passageSolutions = this.passageSolutions.bind(this);
   }
 
   getNumCorrect() {
@@ -27,6 +31,28 @@ class Solutions extends Component {
       if(question.answer === question.userChoice) acc++;
       return acc;
     }, 0);
+  }
+
+  passageSolutions() {
+    const { passages, questions, showLongExplanation, longExplanation,
+      history, match } = this.props;
+    return (
+      <div>
+        <Col sm={12} md={6}>
+          <div className='passage-solution-container'>
+            <Passage passages={passages} />
+          </div>
+        </Col>
+          { _.map(questions, (question, i) => (
+            <Solution key={`solution-${i}`}
+              question={question}
+              showLongExplanation={showLongExplanation}
+              longExplanation={longExplanation}
+              history={history}
+              match={match} />
+          ))}
+      </div>
+    );
   }
 
   mapSolutions() {
@@ -76,14 +102,14 @@ class Solutions extends Component {
     } = this.props;
 
     return (
-      <Grid>
+      <Grid fluid={true}>
         <div className='results-header-container'>
           <div className='results-header'>
             Good work! Score: {this.getNumCorrect()} / {questions.length}
           </div>
           <Button onClick={this.startQuiz}>New Quiz</Button>
         </div>
-        { this.mapSolutions() }
+        { true ? this.passageSolutions() : this.mapSolutions() }
         { hasLongExplanation ? 
           <LongExplanation 
             onHide={hideLongExplanation}
@@ -97,7 +123,9 @@ class Solutions extends Component {
 const mapStateToProps = (state) => ({
   questions: getQuestions(state),
   hasLongExplanation: hasLongExplanationSelector(state),
-  question: getLongExplanation(state)
+  question: getLongExplanation(state),
+  hasPassages: hasPassagesSelector(state),
+  passages: getPassages(state),
 });
 
 const SolutionsContainer = connect(mapStateToProps, {

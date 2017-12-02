@@ -1,0 +1,7 @@
+.passage-container {
+  background-color: white;
+  max-height: calc(80vh - 5em);
+  color: black;
+  overflow: scroll;
+  padding: 1em 2em 1em 2em;
+}

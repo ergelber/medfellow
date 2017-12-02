@@ -28,11 +28,17 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
+  },
+  {
+    freezeTableName: true,
+    underscored: true,
+    timestamps: false
   });
 
-  // Passage.associate = function (models) {
-  //   Passage.hasOne(models.PassageRevision);
-  // }
+  Passage.associate = function (models) {
+    Passage.hasMany(models.passage_revisions);
+    Passage.hasMany(models.questions);
+  }
 
   return Passage;
 }

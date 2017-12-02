@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { Grid, Row, Button, Col } from 'react-bootstrap';
 
 import Categories from '../../../../helpers/categorization';
+import { quizType } from '../../Quiz';
 
 import './Dashboard.css';
 
@@ -15,8 +16,10 @@ class Dashboard extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(id) {
-    this.props.history.push(`/quiz/${id}`);
+  handleClick(id, type) {
+    const { quizType, history } = this.props;
+    quizType(type);
+    history.push(`/quiz/${id}`);
   }
 
   render() {
@@ -31,7 +34,10 @@ class Dashboard extends Component {
                   <div className='section-button-container'>
                     { cat.id === 'cars' ?
                       <Button className='button-coming-soon' disabled>Coming soon</Button> :
-                      <Button className='section-button' onClick={() => this.handleClick(cat.id)}>Start Quiz</Button>
+                      <div>
+                        <Button className='section-button' onClick={() => this.handleClick(cat.id, 'discrete')}>Discrete Quiz</Button>
+                        <Button className='section-button' onClick={() => this.handleClick(cat.id, 'passage')}>Passage Quiz</Button>
+                      </div>
                     }
                     </div>
                 </Col>
@@ -44,4 +50,4 @@ class Dashboard extends Component {
   }
 }
 
-export default withRouter(connect()(Dashboard));
+export default withRouter(connect(null, { quizType })(Dashboard));

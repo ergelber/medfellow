@@ -3,6 +3,7 @@ import { Modal, Button, Grid, Row, Col } from 'react-bootstrap';
 import Markdown from 'react-remarkable';
 
 import { Question } from '../../Quiz';
+import LongExplanationText from './LongExplanationText';
 import { renderMath } from '../../../../helpers/util';
 
 import './LongExplanation.css';
@@ -10,17 +11,17 @@ import './LongExplanation.css';
 
 class LongExplanation extends Component {
   componentDidMount() {
-    if(this.refs.longExplanationText)
-      renderMath(this.refs.longExplanationText);
+    renderMath(this.longExplanationText);
   }
 
   componentDidUpdate() {
-    if (this.refs.longExplanationText)
-      renderMath(this.refs.longExplanationText);
+    renderMath(this.longExplanationText);
   }
 
   render() {
+   
     return (
+      <div ref={(text) => this.longExplanationText = text}>
       <Modal className='modal-container' {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-lg">{this.props.question.topic}</Modal.Title>
@@ -32,9 +33,7 @@ class LongExplanation extends Component {
                 <Question currentQuestion={this.props.question} solution={true} />
               </Col>
               <Col xs={12} md={6} className='long-explanation-text'>
-                <Markdown ref='longExplanationText'>
-                  {this.props.question.long_explanation}
-                </Markdown>
+                <LongExplanationText explanation={this.props.question.long_explanation} />
               </Col>
             </Row>
           </Grid>
@@ -43,6 +42,7 @@ class LongExplanation extends Component {
           <Button onClick={this.props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
+      </div>
     );
   }
 };

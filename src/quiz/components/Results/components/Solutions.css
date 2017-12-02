@@ -1,3 +1,5 @@
+
+
 .results-header-container {
   font-size: 1.6em;
   text-align: center;
@@ -12,4 +14,12 @@
   font-size: 1.5em;
   text-align: center;
   padding: 1.2em 0 0 0;
+}
+
+.passage-solution-container {
+  padding-top: 3em;
+  /* position: fixed;
+  z-index: 10000;
+  width: 40%;
+  height: 1000vh; */
 }

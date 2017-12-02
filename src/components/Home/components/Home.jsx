@@ -6,17 +6,21 @@ import { withRouter } from 'react-router-dom';
 import Books from '../../images/books_1.png';
 import Banner from '../../images/medfellow-banner.png';
 
-import { login } from '../../../Login';
-import { getIsLoggedIn } from '../../../reducer';
-
-// import Login from './Login';
+import { login, loggingIn, signingUp } from '../../../Login';
+import { getIsLoggedIn, getIsSigningUp, getIsLoggingIn } from '../../../reducer';
+import { LoginModal } from '../../../Login';
 
 import './Home.css';
 
 class Home extends Component {
   constructor(props) {
     super(props);
+
+    this.state = { showLogin: false };
+
     this.clickHandler = this.clickHandler.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.login = this.login.bind(this);
   }
 
   componentWillMount() {
@@ -24,13 +28,24 @@ class Home extends Component {
     if(isLoggedIn) history.push('/');
   }
 
+  closeModal() {
+    this.setState({ showLogin: false });
+  }
+
   clickHandler() {
+    this.setState({ showLogin: true });
+  } 
+
+  login() {
     const { login, history } = this.props;
     login();
     history.push('/');
-  } 
+  }
 
   render() {
+    console.log(this.props)
+    const { isLoggingIn, isSigningUp, signingUp, loggingIn } = this.props;
+
     return (
       <div className='home-container'>
         <div className="home-title-container">
@@ -41,17 +56,29 @@ class Home extends Component {
         <div className='books-container'>
           <img className="img-responsive" src={Books} alt="" />
         </div>
+        <LoginModal 
+          loggingIn={loggingIn}
+          signingUp={signingUp}
+          isLoggingIn={isLoggingIn}
+          isSigningUp={isSigningUp}
+          show={this.state.showLogin} 
+          onHide={this.closeModal} 
+          login={this.login} />
       </div> 
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: getIsLoggedIn(state)
+  isLoggedIn: getIsLoggedIn(state),
+  isSigningUp: getIsSigningUp(state),
+  isLoggingIn: getIsLoggingIn(state)
 })
 
 const HomeContainer = withRouter(connect(mapStateToProps, {
-  login
+  login,
+  loggingIn,
+  signingUp
 })(Home));
 
 export default HomeContainer;

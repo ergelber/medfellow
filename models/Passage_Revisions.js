@@ -16,6 +16,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW 
     }
+  },
+  {
+    freezeTableName: true,
+    underscored: true,
+    timestamps: false
   });
 
   // PassageRevision.associate = function(models) {
@@ -25,6 +30,17 @@ module.exports = function (sequelize, DataTypes) {
   //     targetKey: 'id'
   //   });
   // }
+
+  PassageRevision.associate = function (models) {
+    PassageRevision.belongsTo(models.passages, {
+      as: 'passage_id',
+      foreignKey: {
+        name: 'passage_revisions_passage_id_fkey',
+        field: 'passage_id'
+      },
+      targetKey: 'id'
+    });
+  }
 
   return PassageRevision;
 }
