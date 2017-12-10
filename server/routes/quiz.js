@@ -1,6 +1,7 @@
 const express = require('express');
 const Sequelize = require('sequelize');
 const _ = require('lodash');
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
 const models = require('../../models'); 
 
@@ -23,6 +24,8 @@ function getQuestionCategories(section) {
   }
   return categories;
 }
+
+// router.all('*', ensureLoggedIn);
 
 router.route('/questions/:section').get(function(req, res) {
   const questions = models.questions.findAll({ 

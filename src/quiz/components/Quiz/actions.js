@@ -52,7 +52,8 @@ export const createQuiz = (section) => (dispatch, getState) => {
   const url = quizType === 'discrete' ? `/api/questions/${section}` : `/api/passages/${section}`;
 
   fetch(url, {
-    headers: setHeaders()
+    headers: setHeaders(),
+    credentials: 'include'
   })
   .then(convertToJSON)
   .then(({ questions, passages }) => {

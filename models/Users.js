@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const Promise = require("bluebird");
 
 module.exports = function (sequelize, DataTypes) {
-  const Users = sequelize.define('users_full', {
+  const User = sequelize.define('users_full', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -44,18 +44,17 @@ module.exports = function (sequelize, DataTypes) {
             if (err) console.log(err);
           });
       }
-    },
-    instanceMethods: {
-      verifyPassword: function(user, password) {
-        bcrypt.compare(password, user.password).then(function (res) {
-          console.log('RES', res);
-          return res;
-        });
-      }
     }
   });
 
-  return Users;
+  User.prototype.verifyPassword = function(password) {
+   return bcrypt.compare(password, this.dataValues.password).then(function (res) {
+      console.log('RES', res);
+      return res;
+    });
+  }
+
+  return User;
 }
 
 function cryptPassword(password) {

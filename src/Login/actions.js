@@ -19,18 +19,23 @@ export const login = () => (dispatch, getState) => {
   const state = getState();
   const signingUp = state.login.signingUp;
 
-  fetch('api/authorization', {
+  fetch('/login', {
     headers: setHeaders(),
-    method: signingUp ? 'POST' : 'GET'
+    method: 'POST',
+    body: JSON.stringify({
+      username: 'test12345',
+      password: 'test'
+    })
   })
   .then(convertToJSON)
-  .then(({id, username}) => {
-    if (id && username) {
-      if(signingUp) {
-        return dispatch(signup())
-      }
-      return dispatch(localLogin());
-    }
+  .then(({loggedIn}) => {
+    // if (id && username) {
+      // if(signingUp) {
+      //   return dispatch(signup())
+      // }
+      if(loggedIn)
+        return dispatch(localLogin());
+    //}
     console.log('could not find user');
   })
   .catch((e) => {
