@@ -2,7 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const QuestionRevision = sequelize.define('question_revisions', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },   
     prompt: {
       type: DataTypes.TEXT,

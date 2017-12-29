@@ -1,48 +1,30 @@
 const express = require('express');
 const Sequelize = require('sequelize');
 const _ = require('lodash');
-var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
+const getQuestionCategories = require('../helpers/util').getQuestionCategories;
+const transformQuestionProps = require('../helpers/util').transformQuestionProps;
 const models = require('../../models'); 
 
 const router = express.Router();
 
-function getQuestionCategories(section) {
-  let categories = [];
-  switch (section) {
-    case 'psf':
-      categories = ['fc6', 'fc7', 'fc8', 'fc9', 'fc10'];
-      break;
-    case 'bbf':
-      categories = ['fc1',  'fc2',  'fc3'];
-      break;
-    case 'cpf':
-      categories = ['fc4',  'fc5'];
-      break;
-    default:
-      categories = [];
-  }
-  return categories;
-}
-
-// router.all('*', ensureLoggedIn);
-
 router.route('/questions/:section').get(function(req, res) {
   const questions = models.questions.findAll({ 
     attributes: [ 'topic', 'subject', 'subcategory' ],
-    order: [ Sequelize.fn('RANDOM') ],
     include: [{
       model: models.question_revisions,
-      attributes: ['question_id', 'answer', 'short_explanation', 'long_explanation', 'prompt'],
-      order: [[ 'created', 'DESC' ]],
-      limit: 1,
+      attributes: ['created', 'question_id', 'answer', 'short_explanation', 'long_explanation', 'prompt'],
       include: [{
         model: models.answers,
         as: 'answers',
-        order: [[ 'ordering', 'DESC' ]],
         attributes: ['answer']
       }]
     }],
+    order: [
+      [Sequelize.fn('RANDOM')],
+      [models.question_revisions, 'created', 'DESC'],
+      [models.question_revisions, models.answers, 'ordering', 'DESC']
+    ],
     where: { 
       subject: getQuestionCategories(req.params.section),
       is_published: true,
@@ -50,19 +32,19 @@ router.route('/questions/:section').get(function(req, res) {
     },
     limit: 10 
   }).then(function (questions) {
-    res.send({ questions: questions });
+    const filteredQuestions = _.map(questions, function(question) {
+      return transformQuestionProps(question);
+    })
+    res.send({ questions: filteredQuestions });
   })
 });
 
 router.route('/passages/:section').get(function(req, res) {
   models.passages.findAll({
     attributes: ['id', 'section', 'type'],
-    order: [Sequelize.fn('RANDOM')],
     include: [{
       model: models.passage_revisions,
       attributes: ['passage_id', 'title', 'content'],
-      order: [['created', 'DESC']],
-      limit: 1
     },
     {
       model: models.questions,
@@ -70,16 +52,19 @@ router.route('/passages/:section').get(function(req, res) {
       include: [{
         model: models.question_revisions,
         attributes: ['question_id', 'answer', 'short_explanation', 'long_explanation', 'prompt'],
-        order: [['created', 'DESC']],
-        limit: 1,
         include: [{
           model: models.answers,
           as: 'answers',
-          order: [['ordering', 'DESC']],
           attributes: ['answer']
         }]
       }]
     }],
+    order: [
+      [Sequelize.fn('RANDOM')],
+      [models.passage_revisions, 'created', 'DESC'],
+      [models.questions, models.question_revisions, 'created', 'DESC'],
+      [models.questions, models.question_revisions, models.answers, 'ordering', 'DESC']
+    ],
     where: {
       section: req.params.section,
       is_published: true,
@@ -92,9 +77,10 @@ router.route('/passages/:section').get(function(req, res) {
       return passage.passage_revisions[0];
     });
     const questions = _.map(passages, function (passage) {
-      return passage.questions;
+      return _.map(passage.questions, function(question) {
+        return transformQuestionProps(question);
+      });
     });
-
     res.send({ passages: filteredPassages[0], questions: questions[0] });
   })
 });

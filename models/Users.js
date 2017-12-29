@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
 const Promise = require("bluebird");
+const jwt = require('jsonwebtoken');
+
+var cfg = require("../server/config.js");
 
 module.exports = function (sequelize, DataTypes) {
   const User = sequelize.define('users_full', {
@@ -19,6 +22,13 @@ module.exports = function (sequelize, DataTypes) {
     },
     salt: {
       type: DataTypes.STRING
+    },
+    token: {
+      type: DataTypes.STRING
+    },
+    role: {
+      type: DataTypes.ENUM,
+      values: [ 'admin', 'user' ]
     },
     created: {
       type: DataTypes.DATE,
@@ -54,6 +64,20 @@ module.exports = function (sequelize, DataTypes) {
     });
   }
 
+  User.prototype.setToken = function() {
+    var payload = {
+      id: this.username
+    };
+    this.token = jwt.sign(payload, cfg.jwtSecret);
+    return this.save()
+      .then(function(user) {
+        return { user: user };
+      })
+      .catch(function(err) {
+        console.log(err);
+        return { err: err };
+      })
+  }
   return User;
 }
 
@@ -61,12 +85,9 @@ function cryptPassword(password) {
   console.log("cryptPassword" + password);
   return new Promise(function (resolve, reject) {
     bcrypt.genSalt(10, function (err, salt) {
-      console.log('SALT: ', salt)
       // Encrypt password using bycrpt module
       if (err) return reject(err);
-
       bcrypt.hash(password, salt).then(function(hash, err) {
-        console.log('HASH: ', hash)
         return resolve({ hash: hash, salt: salt });
       });
     });

@@ -1,4 +1,4 @@
-const APP_STATE_KEY = 'atlas5d-state';
+const APP_STATE_KEY = 'medfellow';
 
 export const loadState = () => {
   try {

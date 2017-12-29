@@ -2,7 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const PassageRevision = sequelize.define('passage_revisions', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     title: {
       type: DataTypes.TEXT,

@@ -1,5 +1,5 @@
 import React, { PureComponent as Component } from 'react';
-import { Modal, Button, Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
+import { Alert, Modal, Button, Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import Markdown from 'react-remarkable';
 
 import LoginModalHeader from './LoginModalHeader';
@@ -7,9 +7,40 @@ import LoginModalHeader from './LoginModalHeader';
 import './LoginModal.css';
 
 class LoginModal extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { username: '', password: ''}
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.loginNotification === this.props.loginNotification)
+      this.props.clearLoginNotification();
+  }
+
+  handleChange(e, type) {
+    this.setState({ [type]: e.target.value });
+  }
+
+  handleSubmit() {
+    const { isLoggingIn, login, signup, setLoginNotification } = this.props;
+    if(!this.state.username || !this.state.password) {
+      return setLoginNotification('You must enter a username and password');
+    }
+    if(isLoggingIn) {
+      return login(this.state.username, this.state.password);
+    }
+    return signup(this.state.username, this.state.password);
+  }
+
   render() {
-    const { loggingIn, signingUp, login, isLoggingIn } = this.props;
-    console.log(this.props)
+    const { signup, loggingIn, signingUp, 
+      login, isLoggingIn, loginNotification 
+    } = this.props;
+
     return (
       <Modal className='modal-container' {...this.props} aria-labelledby="contained-modal-title-md">
         <Modal.Header closeButton>
@@ -19,13 +50,20 @@ class LoginModal extends Component {
             isLoggingIn={isLoggingIn} />
         </Modal.Header>
         <Modal.Body>
+          {loginNotification
+            ? <Alert bsStyle="danger">{loginNotification}</Alert>
+            : null}
           <Form horizontal>
             <FormGroup controlId="formHorizontalEmail">
               <Col componentClass={ControlLabel} sm={2}>
                 Email
               </Col>
               <Col sm={10}>
-                <FormControl type="email" placeholder="Email" />
+                <FormControl 
+                  type="email" 
+                  placeholder="Email"
+                  onChange={(e) => this.handleChange(e, 'username')}
+                />
               </Col>
             </FormGroup>
             <FormGroup controlId="formHorizontalPassword">
@@ -33,13 +71,17 @@ class LoginModal extends Component {
                 Password
               </Col>
               <Col sm={10}>
-                <FormControl type="password" placeholder="Password" />
+                <FormControl 
+                  type="password" 
+                  placeholder="Password" 
+                  onChange={(e) => this.handleChange(e, 'password')}
+                />
               </Col>
             </FormGroup>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={login}>{ isLoggingIn ? 'Login' : 'Sign Up'}</Button>
+          <Button onClick={this.handleSubmit}>{ isLoggingIn ? 'Login' : 'Sign Up'}</Button>
         </Modal.Footer>
       </Modal>
     );

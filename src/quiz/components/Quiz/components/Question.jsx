@@ -14,11 +14,11 @@ class Question extends Component {
   }
 
   componentDidMount() {
-    renderMath(this.questionText);
+    if(this.questionText) renderMath(this.questionText);
   }
 
   componentDidUpdate() {
-    renderMath(this.questionText);
+    if (this.questionText) renderMath(this.questionText);
   }
 
   clickHandler(userAnswer) {
@@ -29,6 +29,8 @@ class Question extends Component {
   render() {
     let { questions, idx, currentQuestion, solution } = this.props;
     currentQuestion = currentQuestion || questions[idx];
+
+    if (!currentQuestion) return <div className='loader' />;
 
     return (
       <div ref={(input) => { this.questionText = input; }}>

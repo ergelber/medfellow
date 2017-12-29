@@ -1,0 +1,30 @@
+.editor-main-container {
+  font-size: 20px;
+  padding: 0 50px 0 50px;
+}
+
+.editor-main-title {
+  text-align: center;
+  font-size: 3em;
+  margin: 50px 0 30px 0;
+}
+
+.subcat-container {
+  padding: 20px;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.editor-subcat-title {
+  font-size: 16px;
+}
+
+.editor-passages-dash-container {
+  padding-left: 150px;
+}
+
+.dash-header-title {
+  font-size: 35px;
+  padding: 35px 0 55px;
+}

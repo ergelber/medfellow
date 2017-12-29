@@ -1,10 +1,16 @@
-import { login, logout, loggingIn, signingUp } from './actions';
+import { signup, login, logout, loggingIn, 
+  signingUp, clearLoginNotification, setLoginNotification 
+} from './actions';
 import LoginReducer from './reducer';
-import { getIsLoggedIn, getIsSigningUp, getIsLoggingIn } from './selectors';
+import { getIsLoggedIn, getIsSigningUp, 
+  getIsLoggingIn, getToken, getLoginNotification 
+} from './selectors';
 import LoginModal from './components/LoginModal';
 
 // Actions
-export { login, logout, loggingIn, signingUp };
+export { signup, login, logout, loggingIn, 
+  signingUp, clearLoginNotification, setLoginNotification 
+};
 
 // Components
 export { LoginModal };
@@ -13,6 +19,9 @@ export { LoginModal };
 export { LoginReducer };
 
 // Selectors
-export { getIsLoggedIn, getIsSigningUp, getIsLoggingIn };
+export { getToken, getIsLoggedIn, 
+  getIsSigningUp, getIsLoggingIn,
+  getLoginNotification 
+};
 
 

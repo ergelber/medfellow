@@ -23,6 +23,7 @@ class Solutions extends Component {
     this.mapSolutions = this.mapSolutions.bind(this);
     this.getNumCorrect = this.getNumCorrect.bind(this);
     this.passageSolutions = this.passageSolutions.bind(this);
+    this.startQuiz = this.startQuiz.bind(this);
   }
 
   getNumCorrect() {
@@ -31,6 +32,11 @@ class Solutions extends Component {
       if(question.answer === question.userChoice) acc++;
       return acc;
     }, 0);
+  }
+
+  startQuiz() {
+    const { history, match } = this.props;
+    history.push(`/quiz/${match.params.section}`);
   }
 
   passageSolutions() {
@@ -49,7 +55,8 @@ class Solutions extends Component {
               showLongExplanation={showLongExplanation}
               longExplanation={longExplanation}
               history={history}
-              match={match} />
+              match={match}
+              startQuiz={this.startQuiz} />
           ))}
       </div>
     );
@@ -68,13 +75,15 @@ class Solutions extends Component {
               showLongExplanation={showLongExplanation} 
               longExplanation={longExplanation}
               history={history}
-              match={match} />
+              match={match}
+              startQuiz={this.startQuiz} />
             <Solution key={`solution-${i}`}
               question={question}
               showLongExplanation={showLongExplanation}
               longExplanation={longExplanation}
               history={history}
-              match={match} />
+              match={match}
+              startQuiz={this.startQuiz} />
           </Row>
         );
         return acc;
@@ -87,7 +96,8 @@ class Solutions extends Component {
               showLongExplanation={showLongExplanation}
               longExplanation={longExplanation}
               history={history}
-              match={match} />
+              match={match}
+              startQuiz={this.startQuiz} />
           </Row>
         );
         return acc;

@@ -8,18 +8,7 @@ import { CHANGE_IDX, USER_CHOICE, SUBMIT_QUIZ,
   QUIZ_TYPE, RECEIVE_PASSAGES
 } from './action_types';
 import { convertToJSON, setHeaders } from '../../../helpers/util';
-
-// parse question data from server
-const filterQuestions = (questions) => {
-  return _.map(questions, (question) => {
-    let filteredQuestion = _.assign({}, question, question.question_revisions[0]);
-    delete filteredQuestion['question_revisions'];
-    filteredQuestion.answers = _.map(filteredQuestion.answers, (answer) => {
-      return answer.answer;
-    });
-    return filteredQuestion;
-  })
-}
+import { getToken } from '../../../reducer';
 
 export const quizType = createAction(QUIZ_TYPE);
 export const changeIdx = createAction(CHANGE_IDX);
@@ -39,6 +28,7 @@ export const receivePassages = createAction(RECEIVE_PASSAGES);
 
 export const createQuiz = (section) => (dispatch, getState) => {
   const state = getState();
+  const token = getToken(state);
   const quizId = state.quiz.currentQuiz.quizId;
   const quizType = state.quiz.currentQuiz.quizType;
 
@@ -52,14 +42,13 @@ export const createQuiz = (section) => (dispatch, getState) => {
   const url = quizType === 'discrete' ? `/api/questions/${section}` : `/api/passages/${section}`;
 
   fetch(url, {
-    headers: setHeaders(),
+    headers: setHeaders(token),
     credentials: 'include'
   })
   .then(convertToJSON)
   .then(({ questions, passages }) => {
-    const filteredQuestions = filterQuestions(questions);
     if (passages) dispatch(receivePassages(passages));
-    dispatch(receiveQuestions(filteredQuestions));
+    dispatch(receiveQuestions(questions));
     dispatch(resetIdx());
   })
   .catch((e) => {

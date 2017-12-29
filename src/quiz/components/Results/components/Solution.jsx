@@ -12,16 +12,10 @@ class Solution extends Component {
     super(props);
 
     this.launchModal = this.launchModal.bind(this);
-    this.startQuiz = this.startQuiz.bind(this);
   }
 
   componentDidMount() {
     renderMath(this.shortExplanationText);
-  }
-
-  startQuiz() {
-    const { history, match } = this.props;
-    history.push(`/quiz/${match.params.section}`);
   }
   
   launchModal() {
@@ -30,7 +24,7 @@ class Solution extends Component {
   }
 
   render() {
-    const { question } = this.props;
+    const { question, editor } = this.props;
 
     return (
       <Col xs={12} md={6} className='solution-container'>
@@ -38,11 +32,17 @@ class Solution extends Component {
         <div ref={ (text) => this.shortExplanationText = text }>
           <div className='solution-explanation-title'>Explanation:</div>
           <Markdown>{question.short_explanation}</Markdown>
+          { editor ? 
+            <div>
+              <div className='solution-explanation-title'>Long Explanation:</div>
+              <Markdown>{question.long_explanation}</Markdown> 
+            </div> : null}
         </div>
+        { !editor ?
         <div className='solution-button-container'>
           <Button className='more-info' onClick={this.launchModal}>Full Explanation</Button>
-          <Button className='solution-new-quiz' onClick={this.startQuiz}>New Quiz</Button>
-        </div>
+          <Button className='solution-new-quiz' onClick={this.props.startQuiz}>New Quiz</Button>
+        </div> : null }
       </Col>
     );
   }

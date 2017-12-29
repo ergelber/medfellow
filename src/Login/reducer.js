@@ -1,7 +1,14 @@
 import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
 
-import { LOGIN, LOGOUT, SIGNING_UP, LOGGING_IN } from './action_types';
+import { LOGIN, LOGOUT, SIGNING_UP, 
+  LOGGING_IN, SET_TOKEN, CLEAR_LOGIN_NOTIFICATION,
+  SET_LOGIN_NOTIFICATION } from './action_types';
+
+const loginNotification = handleActions({
+  [SET_LOGIN_NOTIFICATION]: (state, { payload }) => payload,
+  [CLEAR_LOGIN_NOTIFICATION]: (state, action) => null
+}, null);
 
 const isLoggedIn = handleActions({
   [LOGIN]: (state, action) => true,
@@ -18,10 +25,16 @@ const loggingIn = handleActions({
   [SIGNING_UP]: (state, action) => false,
 }, false);
 
+const token = handleActions({
+  [SET_TOKEN]: (state, { payload }) => payload
+}, null);
+
 export default combineReducers({
   isLoggedIn,
   signingUp,
-  loggingIn
+  loggingIn,
+  token,
+  loginNotification
 });
 
 

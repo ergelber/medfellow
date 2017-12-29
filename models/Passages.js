@@ -2,7 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const Passage = sequelize.define('passages', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     deleted: {
       type: DataTypes.BOOLEAN,

@@ -4,7 +4,8 @@ module.exports = function (sequelize, DataTypes) {
   const Question = sequelize.define('questions', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },            
     deleted: {
       type: DataTypes.BOOLEAN,

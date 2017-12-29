@@ -15,6 +15,7 @@ export const convertToJSON = (body) => {
 export const setHeaders = (token) => {
   return {
     'Content-type': 'application/json',
-    'Accept': 'application/json'
+    'Accept': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : null
   };
 };

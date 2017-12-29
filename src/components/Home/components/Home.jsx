@@ -6,8 +6,8 @@ import { withRouter } from 'react-router-dom';
 import Books from '../../images/books_1.png';
 import Banner from '../../images/medfellow-banner.png';
 
-import { login, loggingIn, signingUp } from '../../../Login';
-import { getIsLoggedIn, getIsSigningUp, getIsLoggingIn } from '../../../reducer';
+import { login, loggingIn, signingUp, signup, clearLoginNotification, setLoginNotification } from '../../../Login';
+import { getIsLoggedIn, getIsSigningUp, getIsLoggingIn, getLoginNotification } from '../../../reducer';
 import { LoginModal } from '../../../Login';
 
 import './Home.css';
@@ -36,15 +36,17 @@ class Home extends Component {
     this.setState({ showLogin: true });
   } 
 
-  login() {
+  login(username, password) {
     const { login, history } = this.props;
-    login();
+    login(username, password);
     history.push('/');
   }
 
   render() {
-    console.log(this.props)
-    const { isLoggingIn, isSigningUp, signingUp, loggingIn } = this.props;
+    const { signup, isLoggingIn, isSigningUp, 
+      signingUp, loggingIn, loginNotification,
+      clearLoginNotification, setLoginNotification
+    } = this.props;
 
     return (
       <div className='home-container'>
@@ -60,10 +62,14 @@ class Home extends Component {
           loggingIn={loggingIn}
           signingUp={signingUp}
           isLoggingIn={isLoggingIn}
+          signup={signup}
           isSigningUp={isSigningUp}
           show={this.state.showLogin} 
           onHide={this.closeModal} 
-          login={this.login} />
+          login={this.login}
+          loginNotification={loginNotification}
+          setLoginNotification={setLoginNotification}
+          clearLoginNotification={clearLoginNotification} />
       </div> 
     );
   }
@@ -72,13 +78,17 @@ class Home extends Component {
 const mapStateToProps = (state) => ({
   isLoggedIn: getIsLoggedIn(state),
   isSigningUp: getIsSigningUp(state),
-  isLoggingIn: getIsLoggingIn(state)
+  isLoggingIn: getIsLoggingIn(state),
+  loginNotification: getLoginNotification(state)
 })
 
 const HomeContainer = withRouter(connect(mapStateToProps, {
   login,
   loggingIn,
-  signingUp
+  signingUp,
+  signup,
+  clearLoginNotification,
+  setLoginNotification
 })(Home));
 
 export default HomeContainer;

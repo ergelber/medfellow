@@ -33,7 +33,7 @@ class Dashboard extends Component {
                   <div className='section-title'>{cat.title}</div>
                   <div className='section-button-container'>
                     { cat.id === 'cars' ?
-                      <Button className='button-coming-soon' disabled>Coming soon</Button> :
+                      <Button className='section-button' onClick={() => this.handleClick(cat.id, 'passage')}>Passage Quiz</Button> :
                       <div>
                         <Button className='section-button' onClick={() => this.handleClick(cat.id, 'discrete')}>Discrete Quiz</Button>
                         <Button className='section-button' onClick={() => this.handleClick(cat.id, 'passage')}>Passage Quiz</Button>

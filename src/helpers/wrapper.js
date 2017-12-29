@@ -10,8 +10,9 @@ import { logout } from '../Login';
 export default function (ComposedComponent) {
   class Wrapper extends Component {
     render() {
+      const isEditingPage = this.props.match.url.indexOf('/editor') !== -1;
       return (
-        <div>
+        <div className={isEditingPage ? 'editor-container' : 'main-container'}>
           <Header {...this.props} />
           <ComposedComponent {...this.props} />
         </div>
