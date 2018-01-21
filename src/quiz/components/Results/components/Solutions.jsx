@@ -108,7 +108,7 @@ class Solutions extends Component {
 
   render() {
     const { hasLongExplanation, questions,
-      question, hideLongExplanation 
+      question, hideLongExplanation, history
     } = this.props;
 
     return (
@@ -117,7 +117,10 @@ class Solutions extends Component {
           <div className='results-header'>
             Good work! Score: {this.getNumCorrect()} / {questions.length}
           </div>
-          <Button onClick={this.startQuiz}>New Quiz</Button>
+          <div className='results-header-button-group'>
+            <Button onClick={this.startQuiz}>New Quiz</Button>
+            <Button onClick={() => history.push('/')}>Dashboard</Button>
+          </div>
         </div>
         { true ? this.passageSolutions() : this.mapSolutions() }
         { hasLongExplanation ? 

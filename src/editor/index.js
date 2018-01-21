@@ -2,8 +2,7 @@ import EditingReducer from './reducer';
 import EditorMain from './components/EditorMain';
 import SectionOverview from './components/SectionOverview';
 import EditForm from './components/EditForm';
-import { getQuestionsOrPassages, setQuestionType, editContent,
-  updateContent, reset } from './actions';
+import { getQuestionsOrPassages, setQuestionType, editContent, reset } from './actions';
 import { getEditingQuestions, getEditingQuestionType,
   getEditingActivePassage, getEditingActiveQuestion,
   getEditingPassages } from './selectors';

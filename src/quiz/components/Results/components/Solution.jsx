@@ -17,6 +17,10 @@ class Solution extends Component {
   componentDidMount() {
     renderMath(this.shortExplanationText);
   }
+
+  componentDidUpdate() {
+    renderMath(this.shortExplanationText);
+  }
   
   launchModal() {
     const { showLongExplanation, question } = this.props;
@@ -30,7 +34,7 @@ class Solution extends Component {
       <Col xs={12} md={6} className='solution-container'>
         <Question currentQuestion={question} solution={true} /> 
         <div ref={ (text) => this.shortExplanationText = text }>
-          <div className='solution-explanation-title'>Explanation:</div>
+          <div className='solution-explanation-title'>Short Explanation:</div>
           <Markdown>{question.short_explanation}</Markdown>
           { editor ? 
             <div>

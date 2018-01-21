@@ -1,5 +1,3 @@
-// import { createSelector } from 'reselect';
-
 export const getQuizType = (state) => state.currentQuiz.quizType;
 
 export const getIdx = (state) => state.currentQuiz.idx;

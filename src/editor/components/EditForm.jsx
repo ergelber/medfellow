@@ -1,10 +1,8 @@
 import React, { PureComponent as Component } from 'react';
 import { connect } from 'react-redux';
-import { Checkbox, Radio, FormControl, FormGroup,
-  ControlLabel, Button, Row, Grid, Col } from 'react-bootstrap';
+import { Button, Row, Grid, Col } from 'react-bootstrap';
 import _ from 'lodash';
 
-import FieldGroup from '../../components/common/FieldGroup';
 import { editContent, updateContent, reset } from '../actions';
 import { Passage } from '../../quiz/components/Quiz';
 import { getEditingActiveQuestion, getEditingActivePassage } from '../../reducer';
@@ -59,27 +57,27 @@ class EditForm extends Component {
   }
 
   componentWillMount() {
-    const { editContent, questionId, questionType, reset, match, activePassage } = this.props;
-    if (!match.params.passageId && !questionId) return;
-    if (match.params.passageId && activePassage) {
-      const newState = _.assign({}, this.state.passage, _.pick(activePassage, _.keys(this.state.passage)));
-      newState.questions = activePassage.questions;
-      newState.questionMode = true;
-      this.setState({ passage: newState });
-    } else {
-      editContent(questionType, questionId)
+    const { editContent, id, passageId, questionType } = this.props;
+    // if there are no ids, then it is new content which relies on nothing from db
+    if (!id && !passageId) return;
+    // if there is a passageId, it must be a new question being added to a passage
+    if (passageId) {
+      editContent('passage', passageId)
+        .then(res => {
+          this.setInitialPassageState(res);
+        });
+    } 
+    // else we need to fetch the question or passage for updating
+    else {
+      editContent(questionType, id)
         .then(({ passage, question, questions }) => {
-          const type = questionType === 'discrete' ? 'question' : 'passage';
-          const newState = _.assign({}, this.state[type], _.pick((passage || question), _.keys(this.state[type])));
-          if (type === 'passage') newState.questions = questions;
+          const type = this.getQuestionType();
+          const newState = this.setInitialState((passage || question), type, questions);
           this.setState({ [type]: newState });
           if(question && question.passage_id) {
             editContent('passage', question.passage_id)
               .then(res => {
-                const passageState = _.assign({}, this.state.passage, _.pick(res.passage, _.keys(this.state.passage)));
-                passageState.questions = res.questions;
-                passageState.questionMode = true;
-                this.setState({ passage: passageState });
+                this.setInitialPassageState(res);
               });
           }
         });
@@ -87,27 +85,55 @@ class EditForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { editContent, questionId, questionType, reset } = nextProps; 
+    const { editContent, id, questionType, passageId } = nextProps; 
     if (this.props.match.url !== nextProps.match.url) {
-      reset();
-      if (!questionId) return;
-      editContent(questionType, questionId)
+      if (!id && !passageId) return;
+      editContent(questionType, id)
         .then(({ passage, question, questions }) => {
-          const type = questionType === 'discrete' ? 'question' : 'passage';
-          const newState = _.assign({}, this.state[type], _.pick((passage || question), _.keys(this.state[type])));
-          if (type === 'passage') newState.questions = questions;
+          const type = this.getQuestionType();
+          const newState = this.setInitialState((passage || question), type, questions);
+          if (type === 'passage') {
+            newState.questionMode = false;
+            newState.questions = questions;
+          }
           this.setState({ [type]: newState });
+          if (question && question.passage_id) {
+            editContent('passage', question.passage_id)
+              .then(res => {
+                this.setInitialPassageState(res);
+              });
+          }
         });
     }
   }
 
+  getQuestionType() {
+    return this.props.questionType === 'discrete' ? 'question' : 'passage'
+  }
+
+  setInitialState(data, type, questions) {
+    const { saved, questionType } = this.props;
+    const newState = _.assign({}, this.state[type], _.pick(data, _.keys(this.state[type])));
+    if (questions) newState.questions = questions;
+    if (saved) newState.saved = `Saved successfully: ${questionType} id: ${data.id}`;
+    return newState;
+   }
+
+  setInitialPassageState(res) {
+    const { questionType } = this.props;
+    const passageState = _.assign({}, this.state.passage, _.pick(res.passage, _.keys(this.state.passage)));
+    passageState.questions = res.questions;
+    passageState.questionMode = questionType === 'discrete';
+    this.setState({ passage: passageState });
+  }
+
   handleCheckbox(type, value) {
-    const questionType = this.props.questionType === 'discrete' ? 'question' : 'passage';
+    const questionType = this.getQuestionType();
     return this.state[questionType][type] === value;
   }
 
   handleInputChange(type, value, i) {
-    const questionType = this.props.questionType === 'discrete' ? 'question' : 'passage';
+    const questionType = this.getQuestionType();
     const newState = _.assign({}, this.state[questionType]);
     if(type === 'answers') {
       const newAnswers = _.assign([], this.state.question.answers);
@@ -134,13 +160,19 @@ class EditForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const questionType = this.props.questionType === 'discrete' ? 'question' : 'passage';
+    const { updateContent, passageId, match, id, history } = this.props;
+    const questionType = this.getQuestionType();
     const stateValidation = _.omit(this.state[questionType], ['saved', 'deleted', 'is_published', 'questions', 'questionMode']);
+    const data = _.omit(this.state[questionType], ['saved', 'questionMode']);
+    const isNewContent = match.url.includes('new');
+    
+    // add passage id to new ONLY passage question properties to send to server if exists
+    if(passageId && isNewContent) data.passage_id = passageId;
     
     // make sure no missing fields
     let validated = true;
     _.forEach(stateValidation, (value, key) => {
-      if(!value) validated = false;
+      if(!value && value !== 0) validated = false;
     });
 
     // validate answers
@@ -156,12 +188,11 @@ class EditForm extends Component {
       return this.setState({[questionType]: newState});
     }
 
-    const { updateContent, questionId, match } = this.props;
-    const data = this.state[questionType];
-    // add passage id to properties to send to server if exists
-    if(match.params.passageId) data.passage_id = match.params.passageId;
-    updateContent(this.props.questionType, questionId, data)
+    updateContent(this.props.questionType, id, data)
       .then(({ success, id }) => {
+        if(isNewContent) {
+          return history.push(`/editor/edit/${this.props.questionType}/${id}/saved`);
+        }
         const newState = _.assign({}, this.state[questionType]);
         newState.saved = success ? `Saved successfully: ${questionType} id: ${id}` : 'Error saving';
         this.setState({ [questionType]: newState });
@@ -202,45 +233,42 @@ class EditForm extends Component {
   }
 
   renderDisplay() {
-    const { history, match, activePassage, questionType, addQuestionToPassage } = this.props;
+    const { history, match, questionType } = this.props;
     const isPassage = questionType === 'passage';
+    const passage = <Passage passages={this.state.passage} />;
+    const solution = <Solution
+      question={this.state.question}
+      showLongExplanation={true}
+      longExplanation={this.state.question.long_explanation}
+      history={history}
+      match={match}
+      editor={true} 
+    />;
+    const buffer = [];
     if(this.state.passage.questionMode) {
-      return (
-        <div>
-          <Passage passages={this.state.passage} />
-          <Solution
-            question={this.state.question}
-            showLongExplanation={true}
-            longExplanation={this.state.question.long_explanation}
-            history={history}
-            match={match}
-            editor={true} />
-        </div>
-      );
+      buffer.push(passage);
+      buffer.push(solution);
     } 
-    if(isPassage) {
-      return <Passage passages={this.state.passage} />;
+    else if(isPassage) {
+      buffer.push(passage);
     } 
     else {
-      return (
-        <Solution
-          question={this.state.question}
-          showLongExplanation={true}
-          longExplanation={this.state.question.long_explanation}
-          history={history}
-          match={match}
-          editor={true} />
-      );
+      buffer.push(solution);
     }
+    return buffer;
   }
 
   addQuestionToPassage() {
     const { history, activePassage } = this.props;
-    history.push(`/editor/new/discrete/${activePassage.id}`);
+    if(!this.state.passage.questionMode) {
+      history.push(`/editor/new/discrete/${activePassage.id}`);
+    } else {
+      history.push(`/editor/edit/passage/${activePassage.id}`);
+    }
   }
 
   render() {
-    const { history, match, activePassage, questionType } = this.props;
+    const { history, questionType, id, passageId } = this.props;
     const isPassage = questionType === 'passage';
     return (
       <Grid>
@@ -265,10 +293,11 @@ class EditForm extends Component {
                 handleSubmit={this.handleSubmit} /> }
           </Col>
         </Row>
-        {(isPassage || this.state.passage.questionMode) && match.params.questionId ? 
+        {(isPassage || this.state.passage.questionMode) && (id || passageId) ? 
             <PassagesQuestions 
               addQuestionToPassage={this.addQuestionToPassage}
               questions={this.state.passage.questions} 
+              questionMode={this.state.passage.questionMode}
             /> : null }
       </Grid>
     );
@@ -276,7 +305,9 @@ class EditForm extends Component {
 }
 
 const mapStateToProps = (state, { match }) => ({
-  questionId: match.params.questionId,
+  id: match.params.id,
+  passageId: match.params.passageId,
+  saved: match.params.saved,
   questionType: match.params.questionType,
   activeQuestion: getEditingActiveQuestion(state),
   activePassage: getEditingActivePassage(state)

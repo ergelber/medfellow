@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react';
 import {
-  Checkbox, Radio, FormControl, FormGroup,
-  ControlLabel, Button, Row, Grid, Col
+  Checkbox, FormControl, FormGroup,
+  ControlLabel, Button
 } from 'react-bootstrap';
 import _ from 'lodash';
 
@@ -12,10 +12,6 @@ import FieldGroup from '../../components/common/FieldGroup';
 import './PassageForm.css';
 
 class PassageForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <form onSubmit={this.props.handleSubmit} >

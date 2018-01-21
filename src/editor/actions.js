@@ -1,5 +1,4 @@
 import { createAction } from 'redux-actions';
-import _ from 'lodash';
 
 import {
   QUESTION_TYPE, RESET, REQUEST_CONTENT, 
@@ -8,18 +7,6 @@ import {
 } from './action_types';
 import { convertToJSON, setHeaders } from '../helpers/util';
 import { getToken } from '../reducer';
-
-// parse question data from server
-const filterQuestions = (questions) => {
-  return _.map(questions, (question) => {
-    let filteredQuestion = _.assign({}, question.question_revisions[0], question);
-    delete filteredQuestion['question_revisions'];
-    filteredQuestion.answers = _.map(filteredQuestion.answers, (answer) => {
-      return answer.answer;
-    });
-    return filteredQuestion;
-  })
-}
 
 export const setQuestionType = createAction(QUESTION_TYPE);
 export const reset = createAction(RESET);

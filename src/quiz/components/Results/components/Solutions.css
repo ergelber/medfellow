@@ -23,3 +23,7 @@
   width: 40%;
   height: 1000vh; */
 }
+
+.results-header-button-group button {
+    margin: 0 10px 0 10px;  
+}

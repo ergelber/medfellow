@@ -172,9 +172,8 @@ const parsePassageProps = function (data) {
 }
 
 const parseBodyProps = function(data) {
-  const questionProps = _.pick(data, ['topic', 'subject', 'subcategory', 'is_published', 'passage_id']);
   return { 
-    question: questionProps,
+    question: _.pick(data, ['topic', 'subject', 'subcategory', 'is_published', 'passage_id']),
     question_revision: _.pick(data, ['short_explanation', 'long_explanation', 'prompt', 'answer']),
     answers: _.map(data.answers, (data, i) => {
       return {

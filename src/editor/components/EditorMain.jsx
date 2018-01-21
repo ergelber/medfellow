@@ -1,6 +1,4 @@
 import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import { Grid, Row, Button, Col } from 'react-bootstrap';
 
@@ -17,8 +15,7 @@ class EditorMain extends Component {
   }
 
   handleClick(id, type) {
-    const { quizType, history } = this.props;
-    // quizType(type);
+    const { history } = this.props;
     history.push(`/editor/view/${type}/${id}`);
   }
 

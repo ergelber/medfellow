@@ -51,7 +51,7 @@ class App extends Component {
               component={wrapper(SectionOverview)}
             />
             <PrivateRoute
-              path="/editor/edit/:questionType/:questionId"
+              path="/editor/edit/:questionType/:id/:saved?"
               isLoggedIn={isLoggedIn}
               component={wrapper(EditForm)}
             />

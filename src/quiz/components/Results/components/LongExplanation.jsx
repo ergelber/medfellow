@@ -1,6 +1,5 @@
 import React, { PureComponent as Component } from 'react';
 import { Modal, Button, Grid, Row, Col } from 'react-bootstrap';
-import Markdown from 'react-remarkable';
 
 import { Question } from '../../Quiz';
 import LongExplanationText from './LongExplanationText';

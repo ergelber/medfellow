@@ -2,11 +2,10 @@ import React, { PureComponent as Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
-import { Grid, Row, Button, Col, Table } from 'react-bootstrap';
+import { Grid, Row, Button, Table } from 'react-bootstrap';
 
-import Categories from '../../helpers/categorization';
 import { getQuestionsOrPassages, setQuestionType, reset } from '../actions';
-import { getEditingQuestionType, getEditingQuestions, getEditingPassages } from '../../reducer';
+import { getEditingQuestions, getEditingPassages } from '../../reducer';
 
 import './SectionOverview.css';
 
@@ -53,9 +52,10 @@ class SectionOverview extends Component {
           <Table responsive>
             <thead>
               <tr>
-                <th>Published</th>
+                <th>ID</th>
                 <th>{ isPassage ? 'Passage' : 'Question' }</th>
                 { isPassage ? <th>Questions</th> : null }
+                <th>Published</th>
                 <th>Edit</th>
               </tr>
             </thead>
@@ -63,9 +63,10 @@ class SectionOverview extends Component {
               {
                 _.map((isPassage ? passages : questions), (data) => (
                     <tr key={`question-edit-${data.id}`}>
-                      <td>{data.is_published ? 'True' : 'False'}</td>
+                      <td>{data.id}</td>
                       <td>{data.title || data.prompt}</td>
                       { isPassage ? <td>{this.getPassageQuestionCount(data.questions)}</td> : null }
+                      <td>{data.is_published ? 'True' : 'False'}</td>
                       <td><Button onClick={this.handleClick.bind(this, data.id)}>Edit</Button></td>
                     </tr>
                   )

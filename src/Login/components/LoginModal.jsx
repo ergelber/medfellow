@@ -1,6 +1,5 @@
 import React, { PureComponent as Component } from 'react';
 import { Alert, Modal, Button, Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
-import Markdown from 'react-remarkable';
 
 import LoginModalHeader from './LoginModalHeader';
 
@@ -37,9 +36,7 @@ class LoginModal extends Component {
   }
 
   render() {
-    const { signup, loggingIn, signingUp, 
-      login, isLoggingIn, loginNotification 
-    } = this.props;
+    const { loggingIn, signingUp, isLoggingIn, loginNotification } = this.props;
 
     return (
       <Modal className='modal-container' {...this.props} aria-labelledby="contained-modal-title-md">

@@ -1,6 +1,5 @@
 import React, { PureComponent as Component } from 'react';
 import { Tab, Row, Nav, NavItem, Col } from 'react-bootstrap';
-import Markdown from 'react-remarkable';
 
 import './LoginModalHeader.css';
 

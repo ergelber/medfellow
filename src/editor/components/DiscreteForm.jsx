@@ -1,7 +1,7 @@
 import React, { PureComponent as Component } from 'react';
 import {
-  Checkbox, Radio, FormControl, FormGroup,
-  ControlLabel, Button, Row, Grid, Col
+  Checkbox, FormControl, FormGroup,
+  ControlLabel, Button
 } from 'react-bootstrap';
 import _ from 'lodash';
 
@@ -25,10 +25,6 @@ const transformAnswers = (num) => {
 }
 
 class DiscreteForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <form onSubmit={this.props.handleSubmit} >

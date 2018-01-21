@@ -1,13 +1,12 @@
 import { createAction } from 'redux-actions';
 
 import { LOGIN, LOGOUT, SIGNING_UP, 
-  LOGGING_IN, SIGN_UP, SET_TOKEN,
+  LOGGING_IN, SET_TOKEN,
   SET_LOGIN_NOTIFICATION, CLEAR_LOGIN_NOTIFICATION
 } from './action_types';
 import { convertToJSON, setHeaders } from '../helpers/util';
 
 const localLogin = createAction(LOGIN);
-const newSignup = createAction(SIGN_UP);
 export const setLoginNotification = createAction(SET_LOGIN_NOTIFICATION);
 export const clearLoginNotification = createAction(CLEAR_LOGIN_NOTIFICATION);
 

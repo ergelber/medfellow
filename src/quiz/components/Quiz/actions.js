@@ -1,7 +1,6 @@
 import { createAction } from 'redux-actions';
 import 'whatwg-fetch';
 import { v4 } from 'uuid';
-import _ from 'lodash';
 
 import { CHANGE_IDX, USER_CHOICE, SUBMIT_QUIZ, 
   REQUEST_CONTENT, RECEIVE_QUESTIONS, RESET, 

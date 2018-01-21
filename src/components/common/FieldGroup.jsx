@@ -1,4 +1,4 @@
-import React, { PureComponent as Component } from 'react';
+import React from 'react';
 import {
   FormControl, FormGroup,
   ControlLabel, HelpBlock

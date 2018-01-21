@@ -1,5 +1,4 @@
 import React, { PureComponent as Component } from 'react';
-import _ from 'lodash';
 import Markdown from 'react-remarkable';
 
 import { renderMath } from '../../../../helpers/util';

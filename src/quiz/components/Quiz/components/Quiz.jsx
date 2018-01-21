@@ -20,7 +20,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const { questions, isLoading, quizType, passages, isLoadingPassages } = this.props;
+    const { questions, isLoading, quizType, passages } = this.props;
 
     if(isLoading) return <div className='loader' />;
 

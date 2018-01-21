@@ -1,6 +1,5 @@
 import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
-import _ from 'lodash';
 
 import {
   QUESTION_TYPE, RESET, REQUEST_CONTENT,
