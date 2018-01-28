@@ -37,7 +37,6 @@ passport.use(new BearerStrategy(function (token, done) {
 passport.use(new LocalStrategy(function (username, password, done) {
   models.users_full.findOne({ where: { username: username } })
     .then(function (user) {
-      console.log(user instanceof models.users_full);
       if (!user) return done(null, false);
       user.verifyPassword(password)
         .then(function (verified) {
@@ -92,12 +91,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/login', function (req, res, next) {
-  res.json({ err: 'Incorrect username or password' });
-});
+// app.get('/login', function (req, res, next) {
+//   res.json({ err: 'Incorrect username or password' });
+// });
 
 app.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local'),
   function (req, res) {
     res.json({ token: req.user.token });
   }

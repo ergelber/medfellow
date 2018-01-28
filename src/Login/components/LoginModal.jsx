@@ -25,14 +25,23 @@ class LoginModal extends Component {
   }
 
   handleSubmit() {
-    const { isLoggingIn, login, signup, setLoginNotification } = this.props;
+    const { isLoggingIn, login, history, signup, setLoginNotification } = this.props;
     if(!this.state.username || !this.state.password) {
       return setLoginNotification('You must enter a username and password');
     }
     if(isLoggingIn) {
-      return login(this.state.username, this.state.password);
+      return login(this.state.username, this.state.password)
+        .then(({ err }) => {
+          if(err) return setLoginNotification('Incorrect username and password');
+          return history.push('/');
+        });
+    } else {
+      signup(this.state.username, this.state.password)
+        .then(({ err }) => {
+          if (err) return setLoginNotification('Username already taken');
+          return history.push('/');
+        });
     }
-    return signup(this.state.username, this.state.password);
   }
 
   render() {

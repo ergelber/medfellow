@@ -9,6 +9,9 @@ export const renderMath = (value) => {
 };
 
 export const convertToJSON = (body) => {
+  if(body.status < 200 || body.status >= 300) {
+    return { err: body.statusText };
+  }
   return body.json();
 }
 

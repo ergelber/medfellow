@@ -20,7 +20,6 @@ class Home extends Component {
 
     this.clickHandler = this.clickHandler.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.login = this.login.bind(this);
   }
 
   componentWillMount() {
@@ -35,17 +34,12 @@ class Home extends Component {
   clickHandler() {
     this.setState({ showLogin: true });
   } 
-
-  login(username, password) {
-    const { login, history } = this.props;
-    login(username, password);
-    history.push('/');
-  }
-
+  
   render() {
     const { signup, isLoggingIn, isSigningUp, 
       signingUp, loggingIn, loginNotification,
-      clearLoginNotification, setLoginNotification
+      clearLoginNotification, setLoginNotification,
+      login, history
     } = this.props;
 
     return (
@@ -66,7 +60,8 @@ class Home extends Component {
           isSigningUp={isSigningUp}
           show={this.state.showLogin} 
           onHide={this.closeModal} 
-          login={this.login}
+          history={history}
+          login={login}
           loginNotification={loginNotification}
           setLoginNotification={setLoginNotification}
           clearLoginNotification={clearLoginNotification} />

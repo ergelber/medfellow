@@ -22,7 +22,7 @@ export const logout = () => (dispatch, getState) => {
 }
 
 export const login = (username, password) => (dispatch, getState) => {
-  fetch('/login', {
+  return fetch('/login', {
     headers: setHeaders(),
     method: 'POST',
     body: JSON.stringify({
@@ -31,17 +31,22 @@ export const login = (username, password) => (dispatch, getState) => {
     })
   })
   .then(convertToJSON)
-  .then(({ token }) => {
+  .then(({ token, err }) => {
+    if(err) {
+      return { err }
+    }
     dispatch(setToken(token));
     dispatch(localLogin());
+    return true;
   })
-  .catch((e) => {
-    console.log(e);
+  .catch((err) => {
+    console.log(err);
+    return { err };
   }) 
 }
 
 export const signup = (username, password) => (dispatch, getState) => {
-  fetch('/signup', {
+  return fetch('/signup', {
     headers: setHeaders(),
     method: 'POST',
     body: JSON.stringify({
@@ -51,11 +56,15 @@ export const signup = (username, password) => (dispatch, getState) => {
   })
     .then(convertToJSON)
     .then(({ err, token }) => {
-      if (err) return dispatch(setLoginNotification(err));
+      if (err) {
+        return { err };
+      }
       dispatch(setToken(token));
       dispatch(localLogin());
+      return token
     })
-    .catch((e) => {
-      console.log(e);
+    .catch((err) => {
+      console.log(err);
+      return { err }
     }) 
 }
