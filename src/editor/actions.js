@@ -27,7 +27,7 @@ export const getQuestionsOrPassages = (questionType, section) => (dispatch, getS
 
   dispatch(requestContent(section));
 
-  const url = questionType === 'discrete' ? `/editor/questions/${section}` : `/editor/passages/${section}`;
+  const url = questionType === 'discrete' ? `/edit/questions/${section}` : `/edit/passages/${section}`;
 
   fetch(url, {
     headers: setHeaders(token),
@@ -49,7 +49,7 @@ export const editContent = (questionType, id) => (dispatch, getState) => {
 
   dispatch(requestContent(id));
 
-  const url = questionType === 'discrete' ? `/editor/question/${id}` : `/editor/passage/${id}`;
+  const url = questionType === 'discrete' ? `/edit/question/${id}` : `/edit/passage/${id}`;
 
   return fetch(url, {
     headers: setHeaders(token),
@@ -78,9 +78,9 @@ export const updateContent = (questionType, id, data) => (dispatch, getState) =>
 
   let url;
   if(id) {
-    url = questionType === 'discrete' ? `/editor/question/${id}` : `/editor/passage/${id}`;
+    url = questionType === 'discrete' ? `/edit/question/${id}` : `/edit/passage/${id}`;
   } else {
-    url = questionType === 'discrete' ? `/editor/question` : `/editor/passage`;
+    url = questionType === 'discrete' ? `/edit/question` : `/edit/passage`;
   }
   
   return fetch(url, {

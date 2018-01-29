@@ -134,7 +134,7 @@ app.post('/signup', function(req, res) {
 })
 
 app.use('/api', 
-  passport.authenticate('bearer', { failureRedirect: '/login' }),
+  passport.authenticate('bearer'),
   quizRouter
 );
 
@@ -145,8 +145,8 @@ var ensureAdmin = function (req, res, next) {
   res.status(401).json({ err: 'user must be an admin to access editing pages' });
 }
 
-app.use('/editor',
-  passport.authenticate('bearer', { failureRedirect: '/login' }),
+app.use('/edit',
+  passport.authenticate('bearer'),
   ensureAdmin,
   editorRouter
 );
