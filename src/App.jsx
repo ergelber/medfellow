@@ -10,7 +10,7 @@ import wrapper from './helpers/wrapper';
 import { Home } from './components/Home';
 import PrivateRoute from './components/PrivateRoute';
 import { Dashboard, Quiz, Solutions } from './quiz';
-import { getIsLoggedIn } from './reducer';
+import { getIsLoggedIn, getUserRole } from './reducer';
 import { EditorMain, SectionOverview, EditForm } from './editor';
 
 import './App.css';
@@ -18,8 +18,9 @@ import './App.css';
 class App extends Component {
 
   render() {
-    const { isLoggedIn, store } = this.props;
-
+    const { isLoggedIn, store, userRole } = this.props;
+    const isAdmin = userRole === 'admin';
+    
     return (
       <Provider store={store}>
         <Router>
@@ -27,37 +28,41 @@ class App extends Component {
             <Route exact path="/login" component={wrapper(Home)} />
             <PrivateRoute 
               exact path="/"
-              isLoggedIn={isLoggedIn}  
+              isLoggedIn={isLoggedIn} 
               component={wrapper(Dashboard)} 
             />
             <PrivateRoute 
               path="/quiz/:section/:quizId?"
-              isLoggedIn={isLoggedIn}  
+              isLoggedIn={isLoggedIn} 
               component={wrapper(Quiz)} 
             />
             <PrivateRoute 
               path="/solutions/:section/:quizId?"
-              isLoggedIn={isLoggedIn} 
+              isLoggedIn={isLoggedIn}
               component={wrapper(Solutions)} 
             />
             <PrivateRoute
               exact path="/editor"
+              verifiedAdmin={isAdmin}
               isLoggedIn={isLoggedIn}
               component={wrapper(EditorMain)}
             />
             <PrivateRoute
               path="/editor/view/:questionType/:section"
               isLoggedIn={isLoggedIn}
+              verifiedAdmin={isAdmin}
               component={wrapper(SectionOverview)}
             />
             <PrivateRoute
               path="/editor/edit/:questionType/:id/:saved?"
               isLoggedIn={isLoggedIn}
+              verifiedAdmin={isAdmin}
               component={wrapper(EditForm)}
             />
             <PrivateRoute
               path="/editor/new/:questionType/:passageId?"
               isLoggedIn={isLoggedIn}
+              verifiedAdmin={isAdmin}
               component={wrapper(EditForm)}
             />
           </div>
@@ -68,7 +73,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: getIsLoggedIn(state)
+  isLoggedIn: getIsLoggedIn(state),
+  userRole: getUserRole(state)
 });
 
 export default connect(mapStateToProps)(App);

@@ -6,7 +6,7 @@ import {
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
-    rest.isLoggedIn ? (
+    rest.isLoggedIn && (rest.verifiedAdmin === undefined || rest.verifiedAdmin === true) ? (
       <Component {...props} />
     ) : (
         <Redirect to={{

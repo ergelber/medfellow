@@ -13,7 +13,8 @@ import { LoginReducer,
   getIsLoggingIn as getIsLoggingInSelector,
   getIsSigningUp as getIsSigningUpSelector, 
   getToken as getTokenSelector,
-  getLoginNotification as getLoginNotificationSelector 
+  getLoginNotification as getLoginNotificationSelector, 
+  getUserRole as getUserRoleSelector
 } from './Login';
 
 export default combineReducers({
@@ -33,6 +34,9 @@ export const getIsSigningUp = (state) =>
 
 export const getToken = (state) => 
   getTokenSelector(state.login);
+
+export const getUserRole = (state) =>
+  getUserRoleSelector(state.login);
 
 export const getLoginNotification = (state) =>
   getLoginNotificationSelector(state.login);

@@ -2,7 +2,7 @@ import { signup, login, logout, loggingIn,
   signingUp, clearLoginNotification, setLoginNotification 
 } from './actions';
 import LoginReducer from './reducer';
-import { getIsLoggedIn, getIsSigningUp, 
+import { getIsLoggedIn, getIsSigningUp, getUserRole,
   getIsLoggingIn, getToken, getLoginNotification 
 } from './selectors';
 import LoginModal from './components/LoginModal';
@@ -21,7 +21,7 @@ export { LoginReducer };
 // Selectors
 export { getToken, getIsLoggedIn, 
   getIsSigningUp, getIsLoggingIn,
-  getLoginNotification 
+  getLoginNotification, getUserRole
 };
 
 

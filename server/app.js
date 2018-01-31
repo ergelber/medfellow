@@ -98,7 +98,7 @@ app.use(function (req, res, next) {
 app.post('/login',
   passport.authenticate('local'),
   function (req, res) {
-    res.json({ token: req.user.token });
+    res.json({ token: req.user.token, role: req.user.role });
   }
 );
 
