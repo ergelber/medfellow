@@ -122,7 +122,7 @@ class Solutions extends Component {
             <Button onClick={() => history.push('/')}>Dashboard</Button>
           </div>
         </div>
-        { quizType ? this.passageSolutions() : this.mapSolutions() }
+        { quizType === 'passage' ? this.passageSolutions() : this.mapSolutions() }
         { hasLongExplanation ? 
           <LongExplanation 
             onHide={hideLongExplanation}

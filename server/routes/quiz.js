@@ -21,6 +21,7 @@ router.route('/questions/:section').get(function(req, res) {
       }]
     }],
     order: [
+      [Sequelize.fn('RANDOM')],
       [models.question_revisions, 'created', 'DESC'],
       [models.question_revisions, models.answers, 'ordering', 'DESC']
     ],
@@ -29,7 +30,7 @@ router.route('/questions/:section').get(function(req, res) {
       is_published: true,
       passage_id: null 
     },
-    limit: 10 
+    limit: 10
   }).then(function (questions) {
     const filteredQuestions = _.map(questions, function(question) {
       return transformQuestionProps(question);

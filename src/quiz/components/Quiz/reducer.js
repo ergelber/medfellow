@@ -18,7 +18,6 @@ const passage = handleActions({
 }, {});
 
 const quizType = handleActions({
-  [RESET]: (state, action) => null,
   [QUIZ_TYPE]: (state, action) => action.payload
 }, null);
 
