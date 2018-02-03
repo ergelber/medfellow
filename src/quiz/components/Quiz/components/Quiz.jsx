@@ -6,7 +6,7 @@ import QuestionCircles from './QuestionCircles';
 import ButtonGroup from './ButtonGroup';
 import Question from './Question';
 import Passage from './Passage';
-import { changeIdx, setUserChoice, submitQuiz, createQuiz } from '../actions';
+import { changeIdx, setUserChoice, submitQuiz, createQuiz, reset } from '../actions';
 import { getQuestionIdx, getQuestions, getIsLoading,
   getPassages, getQuizType } from '../../../selector.js'
 
@@ -15,7 +15,8 @@ import './Quiz.css';
 class Quiz extends Component {
 
   componentWillMount() {
-    const { match, createQuiz } = this.props;
+    const { match, createQuiz, reset } = this.props;
+    reset();
     createQuiz(match.params.section);
   }
 
@@ -57,6 +58,7 @@ const mapStateToProps = (state) => ({
 });
 
 const QuizContainer = connect(mapStateToProps, {
+  reset,
   changeIdx,
   setUserChoice,
   submitQuiz,

@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { CHANGE_IDX, USER_CHOICE, SUBMIT_QUIZ, 
   REQUEST_CONTENT, RECEIVE_QUESTIONS, RESET, 
-  QUIZ_TYPE, RECEIVE_PASSAGES
+  QUIZ_TYPE, RECEIVE_PASSAGES, RESET_IDX
 } from './action_types';
 import { convertToJSON, setHeaders } from '../../../helpers/util';
 import { getToken } from '../../../reducer';
@@ -12,7 +12,8 @@ import { getToken } from '../../../reducer';
 export const quizType = createAction(QUIZ_TYPE);
 export const changeIdx = createAction(CHANGE_IDX);
 export const submitQuiz = createAction(SUBMIT_QUIZ);
-const resetIdx = createAction(RESET);
+const resetIdx = createAction(RESET_IDX);
+export const reset = createAction(RESET)
 export const setUserChoice = createAction(USER_CHOICE, (userChoice, idx) => (
   { userChoice, idx }
 ));

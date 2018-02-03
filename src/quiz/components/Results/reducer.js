@@ -1,6 +1,5 @@
 import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
-// import _ from 'lodash';
 
 import {
   SHOW_LONG_EXPLANATION, RESET

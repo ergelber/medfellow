@@ -6,7 +6,7 @@ import { Grid, Row, Button, Col } from 'react-bootstrap';
 import { getQuestions, getLongExplanation,
   hasLongExplanation as hasLongExplanationSelector,
   hasPassages as hasPassagesSelector,
-  getPassages
+  getPassages, getQuizType
 } from '../../../selector.js';
 import Solution from './Solution';
 import LongExplanation from './LongExplanation';
@@ -107,7 +107,7 @@ class Solutions extends Component {
   }
 
   render() {
-    const { hasLongExplanation, questions,
+    const { hasLongExplanation, questions, quizType,
       question, hideLongExplanation, history
     } = this.props;
 
@@ -122,7 +122,7 @@ class Solutions extends Component {
             <Button onClick={() => history.push('/')}>Dashboard</Button>
           </div>
         </div>
-        { true ? this.passageSolutions() : this.mapSolutions() }
+        { quizType ? this.passageSolutions() : this.mapSolutions() }
         { hasLongExplanation ? 
           <LongExplanation 
             onHide={hideLongExplanation}
@@ -139,6 +139,7 @@ const mapStateToProps = (state) => ({
   question: getLongExplanation(state),
   hasPassages: hasPassagesSelector(state),
   passages: getPassages(state),
+  quizType: getQuizType(state)
 });
 
 const SolutionsContainer = connect(mapStateToProps, {
