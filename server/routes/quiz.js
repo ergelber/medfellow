@@ -17,11 +17,10 @@ router.route('/questions/:section').get(function(req, res) {
       include: [{
         model: models.answers,
         as: 'answers',
-        attributes: ['answer']
+        attributes: ['answer', 'ordering']
       }]
     }],
     order: [
-      [Sequelize.fn('RANDOM')],
       [models.question_revisions, 'created', 'DESC'],
       [models.question_revisions, models.answers, 'ordering', 'DESC']
     ],
@@ -55,7 +54,7 @@ router.route('/passages/:section').get(function(req, res) {
         include: [{
           model: models.answers,
           as: 'answers',
-          attributes: ['answer']
+          attributes: ['answer', 'ordering']
         }]
       }]
     }],

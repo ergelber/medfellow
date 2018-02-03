@@ -34,9 +34,8 @@ const transformPassageProps = function (passage, includeQuestions) {
 
 const transformQuestionProps = function (question) {
   const filteredQuestion = _.assign({}, question.dataValues, question.dataValues.question_revisions[0].dataValues);
-  filteredQuestion.answers = _.map(filteredQuestion.answers, function (answer) {
-    return answer.answer;
-  });
+  const orderedAnswers = _.sortBy(filteredQuestion.answers, function(answer) { return answer.ordering; });
+  filteredQuestion.answers = _.map(orderedAnswers, function (answer) { return answer.answer; });
   delete filteredQuestion.question_revisions;
   return filteredQuestion;
 }
