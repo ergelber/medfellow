@@ -48,7 +48,10 @@ class LoginModal extends Component {
     const { loggingIn, signingUp, isLoggingIn, loginNotification } = this.props;
 
     return (
-      <Modal className='modal-container' {...this.props} aria-labelledby="contained-modal-title-md">
+      <Modal className='modal-container' 
+        show={this.props.show} 
+        onHide={this.props.onHide}
+        aria-labelledby="contained-modal-title-md">
         <Modal.Header closeButton>
           <LoginModalHeader
             loggingIn={loggingIn}
