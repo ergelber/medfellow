@@ -56,9 +56,9 @@ class LoginModal extends Component {
             isLoggingIn={isLoggingIn} />
         </Modal.Header>
         <Modal.Body>
-          {loginNotification
+          { loginNotification
             ? <Alert bsStyle="danger">{loginNotification}</Alert>
-            : null}
+            : null }
           <Form horizontal>
             <FormGroup controlId="formHorizontalEmail">
               <Col componentClass={ControlLabel} sm={2}>

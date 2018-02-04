@@ -52,19 +52,19 @@ class Home extends Component {
         <div className='books-container'>
           <img className="img-responsive" src={Books} alt="" />
         </div>
-        { this.state.showLogin ? <LoginModal 
+        <LoginModal 
           loggingIn={loggingIn}
           signingUp={signingUp}
           isLoggingIn={isLoggingIn}
           signup={signup}
           isSigningUp={isSigningUp}
-          show={this.state.showLogin} 
+          show={true} 
           onHide={this.closeModal} 
           history={history}
           login={login}
           loginNotification={loginNotification}
           setLoginNotification={setLoginNotification}
-          clearLoginNotification={clearLoginNotification} /> : null }
+          clearLoginNotification={clearLoginNotification} />
        </div> 
     );
   }
