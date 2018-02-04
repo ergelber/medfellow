@@ -17,13 +17,19 @@
 }
 
 .passage-solution-container {
-  padding-top: 3em;
-  /* position: fixed;
+  padding-top: 1em;
+  position: fixed;
   z-index: 10000;
-  width: 40%;
-  height: 1000vh; */
+  width: 50%;
+  height: 1000vh;
 }
 
 .results-header-button-group button {
     margin: 0 10px 0 10px;  
+}
+
+.passage-questions-container {
+  display: block;
+  float: right;
+  width: 50%;
 }

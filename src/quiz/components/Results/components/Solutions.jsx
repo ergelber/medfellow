@@ -43,21 +43,30 @@ class Solutions extends Component {
     const { passages, questions, showLongExplanation, longExplanation,
       history, match } = this.props;
     return (
-      <div>
-        <Col sm={12} md={6}>
-          <div className='passage-solution-container'>
-            <Passage passages={passages} />
+    <div>
+      <div className='passage-solution-container'>
+        <Passage passages={passages} />
+      </div>
+        <div className='passage-questions-container'>
+          <div className='results-header-container'>
+            <div className='results-header'>
+              Good work! Score: {this.getNumCorrect()} / {questions.length}
+            </div>
+            <div className='results-header-button-group'>
+              <Button onClick={this.startQuiz}>New Quiz</Button>
+              <Button onClick={() => history.push('/')}>Dashboard</Button>
+            </div>
           </div>
-        </Col>
-          { _.map(questions, (question, i) => (
-            <Solution key={`solution-${i}`}
-              question={question}
-              showLongExplanation={showLongExplanation}
-              longExplanation={longExplanation}
-              history={history}
-              match={match}
-              startQuiz={this.startQuiz} />
-          ))}
+            { _.map(questions, (question, i) => (
+              <Solution key={`solution-${i}`}
+                question={question}
+                showLongExplanation={showLongExplanation}
+                longExplanation={longExplanation}
+                history={history}
+                match={match}
+                startQuiz={this.startQuiz} />
+            ))}
+        </div>
       </div>
     );
   }
@@ -70,20 +79,24 @@ class Solutions extends Component {
       if (i !== 0 && +i % 2 === 1) {
         acc.push(
           <Row className="show-grid" key={`solution-row-${i}`}>
-            <Solution key={`solution-${+i - 1}`}
-              question={questions[+i - 1]} 
-              showLongExplanation={showLongExplanation} 
-              longExplanation={longExplanation}
-              history={history}
-              match={match}
-              startQuiz={this.startQuiz} />
-            <Solution key={`solution-${i}`}
-              question={question}
-              showLongExplanation={showLongExplanation}
-              longExplanation={longExplanation}
-              history={history}
-              match={match}
-              startQuiz={this.startQuiz} />
+            <Col xs={12} md={6} className='solution-container'>
+              <Solution key={`solution-${+i - 1}`}
+                question={questions[+i - 1]} 
+                showLongExplanation={showLongExplanation} 
+                longExplanation={longExplanation}
+                history={history}
+                match={match}
+                startQuiz={this.startQuiz} />
+            </Col>
+            <Col xs={12} md={6} className='solution-container'>
+              <Solution key={`solution-${i}`}
+                question={question}
+                showLongExplanation={showLongExplanation}
+                longExplanation={longExplanation}
+                history={history}
+                match={match}
+                startQuiz={this.startQuiz} />
+            </Col>
           </Row>
         );
         return acc;
@@ -91,13 +104,15 @@ class Solutions extends Component {
       if (+i === questions.length - 1 && +i % 2 === 0) {
         acc.push(
           <Row className="show-grid" key={`solution-row-${i}`}>
-            <Solution key={`solution-${i}`}
-              question={question}
-              showLongExplanation={showLongExplanation}
-              longExplanation={longExplanation}
-              history={history}
-              match={match}
-              startQuiz={this.startQuiz} />
+            <Col xs={12} md={6} className='solution-container'>
+              <Solution key={`solution-${i}`}
+                question={question}
+                showLongExplanation={showLongExplanation}
+                longExplanation={longExplanation}
+                history={history}
+                match={match}
+                startQuiz={this.startQuiz} />
+            </Col>
           </Row>
         );
         return acc;
@@ -113,15 +128,16 @@ class Solutions extends Component {
 
     return (
       <Grid fluid={true}>
-        <div className='results-header-container'>
-          <div className='results-header'>
-            Good work! Score: {this.getNumCorrect()} / {questions.length}
-          </div>
-          <div className='results-header-button-group'>
-            <Button onClick={this.startQuiz}>New Quiz</Button>
-            <Button onClick={() => history.push('/')}>Dashboard</Button>
-          </div>
-        </div>
+        { quizType === 'discrete' ?
+          <div className='results-header-container'>
+            <div className='results-header'>
+              Good work! Score: {this.getNumCorrect()} / {questions.length}
+            </div>
+            <div className='results-header-button-group'>
+              <Button onClick={this.startQuiz}>New Quiz</Button>
+              <Button onClick={() => history.push('/')}>Dashboard</Button>
+            </div>
+          </div> : null }
         { quizType === 'passage' ? this.passageSolutions() : this.mapSolutions() }
         { hasLongExplanation ? 
           <LongExplanation 

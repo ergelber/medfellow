@@ -34,7 +34,7 @@ class Home extends Component {
   clickHandler() {
     this.setState({ showLogin: true });
   } 
-  
+
   render() {
     const { signup, isLoggingIn, isSigningUp, 
       signingUp, loggingIn, loginNotification,
@@ -52,7 +52,7 @@ class Home extends Component {
         <div className='books-container'>
           <img className="img-responsive" src={Books} alt="" />
         </div>
-        <LoginModal 
+        { this.state.showLogin ? <LoginModal 
           loggingIn={loggingIn}
           signingUp={signingUp}
           isLoggingIn={isLoggingIn}
@@ -64,8 +64,8 @@ class Home extends Component {
           login={login}
           loginNotification={loginNotification}
           setLoginNotification={setLoginNotification}
-          clearLoginNotification={clearLoginNotification} />
-      </div> 
+          clearLoginNotification={clearLoginNotification} /> : null }
+       </div> 
     );
   }
 }

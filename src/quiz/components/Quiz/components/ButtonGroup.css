@@ -26,5 +26,9 @@
 	margin-top: 2%;
 	display: flex;
   justify-content: center;
-  
+}
+
+.btn-default:focus {
+  background-color: #5c8ebe;
+  color: white;
 }

@@ -31,7 +31,7 @@ class Solution extends Component {
     const { question, editor } = this.props;
 
     return (
-      <Col xs={12} md={6} className='solution-container'>
+      <div>
         <Question currentQuestion={question} solution={true} /> 
         <div ref={ (text) => this.shortExplanationText = text }>
           <div className='solution-explanation-title'>Short Explanation:</div>
@@ -47,7 +47,7 @@ class Solution extends Component {
           <Button className='more-info' onClick={this.launchModal}>Full Explanation</Button>
           <Button className='solution-new-quiz' onClick={this.props.startQuiz}>New Quiz</Button>
         </div> : null }
-      </Col>
+      </div>
     );
   }
 }
