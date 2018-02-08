@@ -1,7 +1,16 @@
 .passage-container {
   background-color: white;
-  max-height: calc(80vh - 5em);
+  max-height: calc(85vh - 5em);
   color: black;
   overflow: scroll;
   padding: 1em 2em 1em 2em;
+}
+
+.passage-solution {
+  background-color: white;
+  max-height: calc(100vh - 5em);
+  color: black;
+  overflow: scroll;
+  padding: 1em 2em 1em 2em;
+  margin-right: 40px;
 }

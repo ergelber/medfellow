@@ -45,7 +45,7 @@ class Solutions extends Component {
     return (
     <div>
       <div className='passage-solution-container'>
-        <Passage passages={passages} />
+        <Passage solution={true} passages={passages} />
       </div>
         <div className='passage-questions-container'>
           <div className='results-header-container'>
@@ -79,7 +79,7 @@ class Solutions extends Component {
       if (i !== 0 && +i % 2 === 1) {
         acc.push(
           <Row className="show-grid" key={`solution-row-${i}`}>
-            <Col xs={12} md={6} className='solution-container'>
+            <Col xs={12} md={6}>
               <Solution key={`solution-${+i - 1}`}
                 question={questions[+i - 1]} 
                 showLongExplanation={showLongExplanation} 
@@ -88,7 +88,7 @@ class Solutions extends Component {
                 match={match}
                 startQuiz={this.startQuiz} />
             </Col>
-            <Col xs={12} md={6} className='solution-container'>
+            <Col xs={12} md={6}>
               <Solution key={`solution-${i}`}
                 question={question}
                 showLongExplanation={showLongExplanation}
@@ -129,7 +129,7 @@ class Solutions extends Component {
     return (
       <Grid fluid={true}>
         { quizType === 'discrete' ?
-          <div className='results-header-container'>
+          <div className='results-header-discrete-container'>
             <div className='results-header'>
               Good work! Score: {this.getNumCorrect()} / {questions.length}
             </div>

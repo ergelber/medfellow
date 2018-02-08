@@ -1,9 +1,17 @@
 
 
 .results-header-container {
-  font-size: 1.6em;
+  font-size: 1.8em;
   text-align: center;
-  padding: 1.3em 0 0 0;
+  padding-bottom: 1.5em;
+  border-bottom: 1px solid gray;
+}
+
+.results-header-discrete-container {
+  font-size: 1.8em;
+  text-align: center;
+  padding-bottom: 1em;
+  padding-top: 1.5em;
 }
 
 .results-header {
@@ -19,7 +27,7 @@
 .passage-solution-container {
   padding-top: 1em;
   position: fixed;
-  z-index: 10000;
+  z-index: 10;
   width: 50%;
   height: 1000vh;
 }
@@ -32,4 +40,5 @@
   display: block;
   float: right;
   width: 50%;
+  padding: 3em;
 }

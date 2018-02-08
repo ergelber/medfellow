@@ -15,10 +15,12 @@ class Passage extends Component {
   }
 
   render() {
-    const { passages } = this.props;
+    const { passages, solution } = this.props;
 
     return (
-      <div ref={(input) => { this.passageText = input; }} className='passage-container markdown'>
+      <div 
+        ref={(input) => { this.passageText = input; }} 
+        className={solution ? 'passage-solution markdown' : 'passage-container markdown'}>
         <Markdown>{passages.content}</Markdown>
       </div>
     );

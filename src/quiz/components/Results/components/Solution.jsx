@@ -31,7 +31,7 @@ class Solution extends Component {
     const { question, editor } = this.props;
 
     return (
-      <div>
+      <div className='solution-container'>
         <Question currentQuestion={question} solution={true} /> 
         <div ref={ (text) => this.shortExplanationText = text }>
           <div className='solution-explanation-title'>Short Explanation:</div>
