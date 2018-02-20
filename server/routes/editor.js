@@ -18,7 +18,7 @@ router.route('/questions/:section').get(function (req, res) {
       include: [{
         model: models.answers,
         as: 'answers',
-        attributes: ['answer']
+        attributes: ['answer', 'ordering']
       }],
     }],
     order: [
@@ -46,7 +46,7 @@ router.route('/question/:questionId').get(function (req, res) {
       include: [{
         model: models.answers,
         as: 'answers',
-        attributes: ['answer']
+        attributes: ['answer', 'ordering']
       }]
     }],
     order: [
@@ -96,7 +96,7 @@ router.route('/passages/:section').get(function (req, res) {
         include: [{
           model: models.answers,
           as: 'answers',
-          attributes: ['answer']
+          attributes: ['answer', 'ordering']
         }]
       }]
     }],
