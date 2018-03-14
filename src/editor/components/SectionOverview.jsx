@@ -22,9 +22,13 @@ class SectionOverview extends Component {
     getQuestionsOrPassages(questionType, section);
   }
 
-  handleClick(id) {
+  handleClick(e, id) {
     const { questionType, history } = this.props;
-    history.push(`/editor/edit/${questionType}/${id}`);
+    if (e.shiftKey) {
+      window.open(`/editor/edit/${questionType}/${id}`, '_blank');
+    } else {
+      history.push(`/editor/edit/${questionType}/${id}`);
+    }
   }
 
   newQuestion() {
@@ -67,7 +71,7 @@ class SectionOverview extends Component {
                       <td>{data.title || data.prompt}</td>
                       { isPassage ? <td>{this.getPassageQuestionCount(data.questions)}</td> : null }
                       <td>{data.is_published ? 'True' : 'False'}</td>
-                      <td><Button onClick={this.handleClick.bind(this, data.id)}>Edit</Button></td>
+                      <td><Button onClick={(e) => this.handleClick(e, data.id)}>Edit</Button></td>
                     </tr>
                   )
                 )

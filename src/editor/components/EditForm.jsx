@@ -235,27 +235,18 @@ class EditForm extends Component {
   renderDisplay() {
     const { history, match, questionType } = this.props;
     const isPassage = questionType === 'passage';
-    const passage = <Passage passages={this.state.passage} />;
-    const solution = <Solution
-      question={this.state.question}
-      showLongExplanation={true}
-      longExplanation={this.state.question.long_explanation}
-      history={history}
-      match={match}
-      editor={true} 
-    />;
-    const buffer = [];
-    if(this.state.passage.questionMode) {
-      buffer.push(passage);
-      buffer.push(solution);
-    } 
-    else if(isPassage) {
-      buffer.push(passage);
-    } 
-    else {
-      buffer.push(solution);
+    if(isPassage) {
+      return <Passage passages={this.state.passage} />;
+    } else {
+      return <Solution
+          question={this.state.question}
+          showLongExplanation={true}
+          longExplanation={this.state.question.long_explanation}
+          history={history}
+          match={match}
+          editor={true} 
+        />;
     }
-    return buffer;
   }
 
   addQuestionToPassage() {
@@ -274,7 +265,10 @@ class EditForm extends Component {
       <Grid>
         <Button onClick={() => history.push('/editor')}>Back to Menu</Button>
         <Row>
-          { this.renderDisplay() }
+          {this.state.passage.questionMode ? <Passage passages={this.state.passage} /> : null }
+          <Col xs={12} md={6}>
+            { this.renderDisplay() }
+          </Col>
           <Col xs={12} md={6}>
             { isPassage && !this.state.passage.questionMode ?
               <PassageForm {...this.state.passage}
