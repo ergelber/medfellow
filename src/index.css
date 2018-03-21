@@ -14,3 +14,9 @@ header {
   min-height: 100vh;
 }
 
+th, 
+td {    
+  padding: 7px;
+  border: 1px solid #D3D3D3;
+}
+
